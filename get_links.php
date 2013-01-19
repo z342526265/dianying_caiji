@@ -1,9 +1,9 @@
 <?php
 
 //获取最新更新页的所以电影链接
-function get_links() {
+function get_links($page) {
 	//获取最新更新页面的内容
-	$url = 'http://www.f1dy.net/index.php?s=video/lists/id/1.html';
+	$url = 'http://www.f1dy.net/index.php?s=video/lists/id/$page.html';
 	$lines_array = file($url);
 	// echo $lines_array;
 	//转换成字符串

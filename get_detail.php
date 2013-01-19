@@ -21,7 +21,7 @@ function get_detail($link, $db) {
 	$title = $title_arr[1][0];
 	
 	echo $title."<br/>";
-	echo "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
+	// echo "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
 
 	//先替换掉\n，再进行匹配
 	$content_str = preg_replace('/\n/', '', $content_str);
@@ -40,8 +40,8 @@ function get_detail($link, $db) {
 	//匹配出链接,放入数组$out_arr；
 	$image_arr = array();
 	preg_match_all($image_reg, $content_str, $image_arr);
-	print_r($image_arr);
-	echo "================================================================================";
+	// print_r($image_arr);
+	// echo "================================================================================";
 	$url_str = join(',', $image_arr[0]);
 	
 	
@@ -104,16 +104,16 @@ function get_detail($link, $db) {
 	// echo $url_str . "<br/>";
 
 	$image_url_arr = split(",", $url_str);
-	print_r($image_url_arr);
-	echo "<br/>";
+	// print_r($image_url_arr);
+	// echo "<br/>";
 	foreach ($image_url_arr as $key => $value) {
-		echo $value . "====----------=======" . "<br/>";
+		// echo $value . "====----------=======" . "<br/>";
 		// echo "<br/>";
 		//获取每个图片url最后一个"/"后面的内容
 		$image_name = strrchr($value, '/');
 		$image_name = str_replace('/', "", $image_name);
 		if ($image_name) {
-			echo $image_name . '<br/>';
+			// echo $image_name . '<br/>';
 			//下载图片
 			download_image($value, $image_folder, $image_name);
 		}
