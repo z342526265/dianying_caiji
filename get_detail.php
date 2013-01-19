@@ -63,9 +63,9 @@ function get_detail($link, $db) {
 
 	//写入文件夹data，每个电影一个文件，文件名为电影名称
 
-	$data_handle = fopen("./data/" . $title . ".txt", "w+");
-	fwrite($data_handle, $url_str . "\n\r");
-	fwrite($data_handle, $wenzi);
+	// $data_handle = fopen("./data/" . $title . ".txt", "w+");
+	// fwrite($data_handle, $url_str . "\n\r");
+	// fwrite($data_handle, $wenzi);
 
 	//下载图片，图片保存在文件夹images中，每个电影一个文件夹，文件夹名称为电影名称，文件夹内图片名称为图片url最后一个'/'之后的部分
 

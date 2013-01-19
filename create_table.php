@@ -2,7 +2,9 @@
 
 	require("./db.php");
 	
-	$create_table_sql = "CREATE TABLE moives (
+	$create_table_sql = "
+	DROP DATABASE IF EXISTS moives;
+	CREATE TABLE moives (
   id int(11) NOT NULL AUTO_INCREMENT,
   description text NOT NULL,
   title varchar(255),

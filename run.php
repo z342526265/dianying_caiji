@@ -22,7 +22,8 @@ while ($i <= 534) {
 	echo "<br/>";
 
 	foreach ($links as $key => $value) {
-		echo "<br/>第" . $key . "个电影";
+		echo $value."<br/>";
+		echo "第 $i 页 ；第" . $key . "个电影<br/>";
 		get_detail($value, $db);
 	}
 
