@@ -1,13 +1,16 @@
 <?php
 
 header("Content-type:text/html;charset=utf-8");
+// require ("./config.db.php");
 require ("./db.php");
 require ("./get_links.php");
 require ("./get_detail.php");
 require ("./download_images.php");
 
+set_time_limit($db_config["time_limit"]);
+
 $i = 1;
-while ($i <= 534) {
+while ($i <= 1) {
 	$links = get_links($i);
 	echo "<br/>";
 
@@ -22,14 +25,27 @@ while ($i <= 534) {
 	echo "<br/>";
 
 	foreach ($links as $key => $value) {
-		echo $value."<br/>";
-		echo "第 $i 页 ；第" . $key . "个电影<br/>";
-		get_detail($value, $db);
+
+		$sql = "select * from moive_urls where moive_url = '$value'";
+		$one = $db -> get_one($sql);
+		print_r($one);
+		//如果已经存在这个地址，则略过,如果不存在，则下载，并把地址保存
+		if (empty($one)) {
+			get_detail($value, $db);
+			$dataArray = array("moive_url" => $value,"is_caiji"=>1);
+			$db -> insert("moive_urls", $dataArray);
+		}else{
+			echo "电影".$one["moive_url"]."已经存在！";
+		}
+
+		// echo $value."<br/>";
+		// echo "第 $i 页 ；第" . $key . "个电影<br/>";
+
 	}
 
 	// echo "<br/>";
 
-	echo "The page is " . $i . "<br />";
+	// echo "The page is " . $i . "<br />";
 	$i++;
 }
 ?>

@@ -110,6 +110,7 @@ Class DB {
 		$value .= substr($value, 0, -1);
 		$sql = "update $table set $value where 1=1 and $condition";
 		$this -> write_log("更新 " . $sql);
+		echo $sql;
 		if (!$this -> query($sql))
 			return false;
 		return true;

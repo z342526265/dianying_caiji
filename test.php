@@ -94,4 +94,7 @@ $test_str = preg_replace('/<!--剧情简介 begin-->(.*?<br \/>){5}/', "========
 echo $test_str;
 
 
+
+
+
 ?>

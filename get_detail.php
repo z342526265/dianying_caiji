@@ -1,5 +1,7 @@
 <?php
 
+set_time_limit($db_config["time_limit"]);
+
 //获取最新更新页的所以电影链接并把相关数据保存进数据库
 function get_detail($link, $db) {
 
@@ -16,23 +18,25 @@ function get_detail($link, $db) {
 	//获取电影名称
 	$title_arr = array();
 	$title_reg = '/(《.*》)剧情简介/';
-	
+
 	preg_match_all($title_reg, $content_str, $title_arr);
 	$title = $title_arr[1][0];
-	
-	echo $title."<br/>";
+
+	echo $title . "<br/>";
 	// echo "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT";
 
 	//先替换掉\n，再进行匹配
 	$content_str = preg_replace('/\n/', '', $content_str);
-	
+
+	//再替换掉\r，再进行匹配
+	$content_str = preg_replace('/\r/', '', $content_str);
+
 	//替换掉剧情简介之前和之后5行的内容
-	$content_str = preg_replace('/.*<!--剧情简介 begin-->(.*?<br \/>){4,5}/', "", $content_str);
+	$content_str = preg_replace('/.*<!--剧情简介 begin-->(.*?<br \/>){4}/', "", $content_str);
 
 	//替换掉剧情简介之后的内容
 	$content_str = preg_replace('/<!--剧情简介 end-->.*/', '', $content_str);
-	
-	
+
 	//获取图片地址
 	//正则表达式匹配图片地址
 	$image_reg = '/http[^(影片截图)(简介)><]*?\.(jpg|png|jpeg|gif|bmp)/';
@@ -43,14 +47,16 @@ function get_detail($link, $db) {
 	// print_r($image_arr);
 	// echo "================================================================================";
 	$url_str = join(',', $image_arr[0]);
-	
-	
+
 	//替换掉影片截图部分，只保留文字部分作为简介内容
 	$content_str = preg_replace('/[^(<\/p>)]*影片截图.*/', '', $content_str);
-	
+
 	//替换掉 <span style="color:blue;">◎IMDB链接 这些内容
 	$content_str = preg_replace('/<span style="color:blue;">◎IMDB链接.*?<br \/>/', '', $content_str);
-	
+
+	//替换掉http链接部分
+	$content_str = preg_replace('/链接.*?<br \/>/', '', $content_str);
+	$content_str = preg_replace('/(https?|ftp|mms):\/\/([A-z0-9]+[_\-]?[A-z0-9]+\.)*[A-z0-9]+\-?[A-z0-9]+\.[A-z]{2,}(\/.*)*\/?/', '', $content_str);
 
 	// echo $content_str."<br/>";
 
@@ -58,8 +64,6 @@ function get_detail($link, $db) {
 	// $wenzi = strip_tags($content_str);
 
 	$wenzi = $content_str;
-
-	
 
 	//写入文件夹data，每个电影一个文件，文件名为电影名称
 
@@ -119,6 +123,7 @@ function get_detail($link, $db) {
 		}
 	}
 
+	echo "电影" . $title . "已经已经更新";
 }
 ?>
 
